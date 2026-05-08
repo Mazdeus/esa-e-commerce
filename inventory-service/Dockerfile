@@ -2,14 +2,22 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json tsconfig.json ./
+COPY shared-library/package*.json ./shared-library/
+RUN cd shared-library && npm install
 
-RUN npm ci
+COPY inventory-service/package*.json ./inventory-service/
+WORKDIR /app/inventory-service
+RUN npm install
 
-COPY src ./src
+WORKDIR /app
+COPY shared-library ./shared-library
+COPY inventory-service/src ./inventory-service/src
+COPY inventory-service/tsconfig.json ./inventory-service/
 
+WORKDIR /app/inventory-service
+RUN npm install file:../shared-library
 RUN npm run build
 
 EXPOSE 3003
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "node $(find dist -name main.js | head -n 1)"]
