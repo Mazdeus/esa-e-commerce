@@ -47,7 +47,7 @@ export class CommandDispatcher {
       );
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(
         `❌ Failed to dispatch command: ${command.command_type} - ${error.message}`,
       );
