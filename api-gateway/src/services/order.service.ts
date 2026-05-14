@@ -26,7 +26,7 @@ export class OrderService {
         ),
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to start saga: ${error.message}`);
       throw new Error(`Failed to start saga: ${error.message}`);
     }
@@ -42,7 +42,7 @@ export class OrderService {
         ),
       );
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Failed to get saga status: ${error.message}`);
       throw new Error(`Failed to get saga status: ${error.message}`);
     }

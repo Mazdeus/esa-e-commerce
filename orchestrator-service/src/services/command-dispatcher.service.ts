@@ -41,7 +41,7 @@ export class CommandDispatcher {
       );
 
       const response = await firstValueFrom(
-        this.httpService.post(`${serviceUrl}/command`, command, {
+        this.httpService.post(`${serviceUrl}/api/v1/command`, command, {
           timeout: 10000,
         }),
       );
