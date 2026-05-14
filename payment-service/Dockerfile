@@ -2,14 +2,20 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json tsconfig.json ./
+COPY shared-library/package*.json ./shared-library/
+RUN cd shared-library && npm install
 
 RUN npm install
 
-COPY src ./src
+WORKDIR /app
+COPY shared-library ./shared-library
+COPY payment-service/src ./payment-service/src
+COPY payment-service/tsconfig.json ./payment-service/
 
+WORKDIR /app/payment-service
+RUN npm install file:../shared-library
 RUN npm run build
 
 EXPOSE 3004
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "node $(find dist -name main.js | head -n 1)"]

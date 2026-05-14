@@ -42,7 +42,7 @@ export class SagaOrchestrator {
 
     try {
       await this.executeStep(saga_id, CommandType.CREATE_ORDER, order_request);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`❌ Saga failed: ${error.message}`);
       await this.compensate(saga_id);
     }
@@ -74,7 +74,7 @@ export class SagaOrchestrator {
 
       await this.recordStep(saga_id, commandType);
       await this.executeNextStep(saga_id, commandType, response.data);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`❌ Step execution failed: ${error.message}`);
       throw error;
     }
@@ -99,7 +99,7 @@ export class SagaOrchestrator {
         () => this.commandDispatcher.dispatch(command),
       );
       return response;
-    } catch (error) {
+    } catch (error: any) {
       this.logger.warn(
         `⚠️ Retry attempt ${attempt + 1}/${maxRetries} for ${command.command_type}`,
       );
@@ -187,7 +187,7 @@ export class SagaOrchestrator {
 
         await this.commandDispatcher.dispatch(command);
         this.logger.log(`✅ Compensation step completed: ${compensationStep}`);
-      } catch (error) {
+      } catch (error: any) {
         this.logger.error(
           `❌ Compensation step failed: ${compensationStep} - ${error.message}`,
         );

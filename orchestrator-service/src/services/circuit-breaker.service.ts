@@ -63,7 +63,7 @@ export class CircuitBreakerService {
       }
 
       return result;
-    } catch (error) {
+    } catch (error: any) {
       breaker.failureCount++;
       breaker.lastFailureTime = Date.now();
 

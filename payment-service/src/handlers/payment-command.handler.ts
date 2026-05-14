@@ -30,7 +30,7 @@ export class PaymentCommandHandler {
         default:
           throw new Error(`Unknown command: ${command.command_type}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`❌ Command failed: ${error.message}`);
       return {
         saga_id: command.saga_id,
